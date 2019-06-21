@@ -62,3 +62,17 @@ class LawyerSerializer(serializers.ModelSerializer):
         )
 
         return lawyer
+
+    def update(self, lawyer, validated_data):
+        user_data = validated_data["user"]
+        user = lawyer.user
+        user.username = user_data["username"]
+        user.set_password(user_data["password"])
+        user.save()
+
+        lawyer.name = validated_data["name"]
+        lawyer.age = validated_data["age"]
+        lawyer.save()
+
+        return lawyer
+
